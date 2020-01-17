@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "categoria")
@@ -13,6 +15,9 @@ public class Categoria {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotNull(message = "O nome da categoria não pode ser nulo")
+	@Size(min = 3, max = 30, message = "nome da categoria deve ter o tamanho entre {min} e {max}")
 	private String nome;
 
 	public Long getId() {
