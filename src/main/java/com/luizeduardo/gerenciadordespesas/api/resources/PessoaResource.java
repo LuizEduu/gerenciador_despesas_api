@@ -47,8 +47,10 @@ public class PessoaResource {
 	}
 
 	@GetMapping("/{id}")
-	public Pessoa buscarPessoaPorId(@PathVariable Long id) {
-		return pessoaRepository.findOne(id);
+	public ResponseEntity<?> buscarPessoaPorId(@PathVariable Long id) {
+		Pessoa pessoa = pessoaRepository.findOne(id);
+
+		return pessoa != null ? ResponseEntity.ok(pessoa) : ResponseEntity.notFound().build();
 	}
 
 	@GetMapping
@@ -72,7 +74,7 @@ public class PessoaResource {
 		return ResponseEntity.ok(pessoaSalva);
 
 	}
-	
+
 	@PutMapping("/{id}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void atualizarAtivo(@PathVariable Long id, @RequestBody Boolean ativo) {
