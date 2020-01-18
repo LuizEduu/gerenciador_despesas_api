@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "pessoa")
@@ -16,7 +17,8 @@ public class Pessoa {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
+	@Size(min = 3, max = 100, message = "O nome deve conter no minimo {min} e {max} caracteres")
+	@NotNull(message = "O nome não pode ser nulo")
 	private String nome;
 
 	@Embedded
