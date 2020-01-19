@@ -25,6 +25,7 @@ import com.luizeduardo.gerenciadordespesas.api.event.RecursoCriadoEvent;
 import com.luizeduardo.gerenciadordespesas.api.exceptionhandler.ExceptionHandler.Erro;
 import com.luizeduardo.gerenciadordespesas.api.model.Lancamento;
 import com.luizeduardo.gerenciadordespesas.api.repositories.LancamentoRepository;
+import com.luizeduardo.gerenciadordespesas.api.repositories.filter.LancamentoFilter;
 import com.luizeduardo.gerenciadordespesas.api.services.LancamentoService;
 import com.luizeduardo.gerenciadordespesas.api.services.exception.PessoaInexistenteOuInativaException;
 
@@ -63,11 +64,10 @@ public class LancamentoResource {
 	}
 
 	@GetMapping
-	public List<Lancamento> listarLancamentos() {
-		return lancamentoRepository.findAll();
+	public List<Lancamento> listarLancamentos(LancamentoFilter lancamentoFilter) {
+		return lancamentoRepository.filtrar(lancamentoFilter);
 	}
 
-	
 	@ExceptionHandler({ PessoaInexistenteOuInativaException.class })
 	public ResponseEntity<Object> handlePessoaInexistenteOuInativaException(PessoaInexistenteOuInativaException ex) {
 		String mensagemUsuario = messageSource.getMessage("pessoa.inexistente_ou_inativa", null,

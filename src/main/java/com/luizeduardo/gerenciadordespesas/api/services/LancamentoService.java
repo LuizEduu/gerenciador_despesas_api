@@ -1,7 +1,6 @@
 package com.luizeduardo.gerenciadordespesas.api.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.luizeduardo.gerenciadordespesas.api.model.Lancamento;
@@ -31,13 +30,13 @@ public class LancamentoService {
 		return lancamentoRepository.save(lancamento);
 	}
 	
-	private Lancamento buscarLancamentoPorId(Long id) {
-		Lancamento lancamentoSalvo = lancamentoRepository.findOne(id);
-
-		if (lancamentoSalvo == null) {
-			throw new EmptyResultDataAccessException(1);
-		}
-
-		return lancamentoSalvo;
-	}
+//	private Lancamento buscarLancamentoPorId(Long id) {
+//		Lancamento lancamentoSalvo = lancamentoRepository.findOne(id);
+//
+//		if (lancamentoSalvo == null) {
+//			throw new EmptyResultDataAccessException(1);
+//		}
+//
+//		return lancamentoSalvo;
+//	}
 }

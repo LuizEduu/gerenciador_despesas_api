@@ -30,7 +30,7 @@ public class Lancamento {
 	@Size(min = 3, max = 200, message = "A descrição deve conter entre {min} e {max} caracteres")
 	private String descricao;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern  = "yyyy-MM-dd")
 	@NotNull(message = "Data de Vencimento não pode ser nula")
 	@Column(name = "data_vencimento")
 	private LocalDate dataVencimento;
