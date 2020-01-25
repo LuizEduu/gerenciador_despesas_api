@@ -18,6 +18,14 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+/**
+ * Classe Responsável por filtrar todas requisições para oauth/token
+ * e Pegar o refresh_token do cookie e colocar na requisição
+ *
+ * @author luiz
+ *
+ */
+
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE) // dar prioridade alta para o filtro
 
