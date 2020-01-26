@@ -30,6 +30,7 @@ import com.luizeduardo.gerenciadordespesas.api.exceptionhandler.ExceptionHandler
 import com.luizeduardo.gerenciadordespesas.api.model.Lancamento;
 import com.luizeduardo.gerenciadordespesas.api.repositories.LancamentoRepository;
 import com.luizeduardo.gerenciadordespesas.api.repositories.filter.LancamentoFilter;
+import com.luizeduardo.gerenciadordespesas.api.repositories.projection.ResumoLancamento;
 import com.luizeduardo.gerenciadordespesas.api.services.LancamentoService;
 import com.luizeduardo.gerenciadordespesas.api.services.exception.PessoaInexistenteOuInativaException;
 
@@ -73,6 +74,12 @@ public class LancamentoResource {
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public Page<Lancamento> listarLancamentos(LancamentoFilter lancamentoFilter, Pageable pageable) {
 		return lancamentoRepository.filtrar(lancamentoFilter, pageable);
+	}
+	
+	@GetMapping(params = "resumo")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+	public Page<ResumoLancamento> resumoLancamento(LancamentoFilter lancamentoFilter, Pageable pageable) {
+		return lancamentoRepository.resumir(lancamentoFilter, pageable);
 	}
 
 	@DeleteMapping("/{id}")
