@@ -11,13 +11,16 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.luizeduardo.gerenciadordespesas.api.config.property.GerenciadorDeDespesasProperty;
 
 /**
  * Classe Responsável por filtrar as requisições e dar as permissões para o CORS
+ * 
  * @author luiz
  *
  */
@@ -25,8 +28,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
-	
-	private String originPermitida = "http://localhost:8000"; // TODO: Configurar para diferentes ambientes
+
+	@Autowired
+	private GerenciadorDeDespesasProperty gerenciadorDeDespesasProperty;
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
@@ -35,19 +39,19 @@ public class CorsFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 
-		response.setHeader("Access-Control-Allow-Origin", originPermitida); //origens de requisições permitidas
-		response.setHeader("Access-Control-Allow-Credentials", "true"); // permitir o envio do refreshToken pela requisição
+		response.setHeader("Access-Control-Allow-Origin",
+				gerenciadorDeDespesasProperty.getOriginPermitida().toString());
 
-		
-		//se o metodo da requisição for um Options
-		if (request.getMethod().equals("OPTIONS") && request.getHeader("Origin").equals(originPermitida)) {
-			
+		// se o metodo da requisição for um Options
+		if (request.getMethod().equals("OPTIONS")
+				&& request.getHeader("Origin").equals(gerenciadorDeDespesasProperty.getOriginPermitida().toString())) {
+
 			response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
 			response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept");
 			response.setHeader("Access-Control-Max-Age", "3600");
 
 			response.setStatus(HttpServletResponse.SC_OK);
-			
+
 		} else {
 			chain.doFilter(req, res);
 		}
