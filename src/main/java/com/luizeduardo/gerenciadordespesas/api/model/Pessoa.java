@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -13,11 +14,12 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "pessoa")
+@Table(schema = "public",name = "pessoa")
 public class Pessoa {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="pessoa_id")
+	@SequenceGenerator(name="pessoa_id", sequenceName="pessoa_id")
 	private Long id;
 
 	@Size(min = 3, max = 100, message = "O nome deve conter no minimo {min} e {max} caracteres")

@@ -11,17 +11,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 
 @Entity
-@Table(name = "usuario")
+@Table(schema = "public", name = "usuario")
 public class Usuario {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="usuario_id")
+	@SequenceGenerator(name="usuario_id", sequenceName="usuario_id")
 	private Long id;
 
 	@NotNull(message = "O Nome do usuário não pode ser vazio")
