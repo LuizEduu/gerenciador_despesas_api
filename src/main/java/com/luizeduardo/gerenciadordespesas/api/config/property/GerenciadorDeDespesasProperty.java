@@ -5,13 +5,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("gerenciador_despesas")
 public class GerenciadorDeDespesasProperty {
 
-	private String originPermitida[] = { "http://localhost:8000" };
+	private String originPermitida =  "http://localhost:8000";
 
-	public String[] getOriginPermitida() {
+	public String getOriginPermitida() {
 		return originPermitida;
 	}
 
-	public void setOriginPermitida(String[] originPermitida) {
+	public void setOriginPermitida(String originPermitida) {
 		this.originPermitida = originPermitida;
 	}
 

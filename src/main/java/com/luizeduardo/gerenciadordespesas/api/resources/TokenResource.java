@@ -24,7 +24,7 @@ public class TokenResource {
 
 		Cookie cookie = new Cookie("refreshToken", null);
 		cookie.setHttpOnly(true);
-		cookie.setSecure(gerenciadorDeDespesasProperty.getSeguranca().isEnableHttps()); //
+		cookie.setSecure(gerenciadorDeDespesasProperty.getSeguranca().isEnableHttps());
 		cookie.setPath(req.getContextPath() + "/oauth/token");
 		cookie.setMaxAge(0);
 
