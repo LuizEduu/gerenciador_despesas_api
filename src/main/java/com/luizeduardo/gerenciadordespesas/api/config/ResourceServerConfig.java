@@ -3,6 +3,7 @@ package com.luizeduardo.gerenciadordespesas.api.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -24,6 +25,7 @@ import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecur
  *
  */
 
+@Profile("oauth-security")
 @Configuration
 @EnableWebSecurity
 @EnableResourceServer
@@ -42,8 +44,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	// configuração das permissões dos endpoints
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/categorias").permitAll().anyRequest().authenticated().and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors().disable();
+		http.authorizeRequests()
+			.anyRequest().authenticated()
+			.and()
+			.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+			.cors().disable();
 	}
 
 	// manter o servidor sem armazenar estado
