@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,7 +76,7 @@ public class LancamentoResource {
 	public Page<Lancamento> listarLancamentos(LancamentoFilter lancamentoFilter, Pageable pageable) {
 		return lancamentoRepository.filtrar(lancamentoFilter, pageable);
 	}
-	
+
 	@GetMapping(params = "resumo")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public Page<ResumoLancamento> resumoLancamento(LancamentoFilter lancamentoFilter, Pageable pageable) {
@@ -87,6 +88,14 @@ public class LancamentoResource {
 	public ResponseEntity<?> removerLancamento(@PathVariable Long id) {
 		lancamentoRepository.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	@PutMapping("/{id}")
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
+	public ResponseEntity<?> atualizarLancamento(@PathVariable Long id, @RequestBody Lancamento lancamento) {
+		Lancamento lancamentoSalvo = lancamentoService.atualizarLancamento(id, lancamento);
+
+		return ResponseEntity.status(HttpStatus.OK).body(lancamentoSalvo);
 	}
 
 	@ExceptionHandler({ PessoaInexistenteOuInativaException.class })
