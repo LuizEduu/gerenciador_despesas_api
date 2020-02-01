@@ -21,11 +21,9 @@ public class LancamentoService {
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
-	
+
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-	
-	
 
 	public Lancamento cadastrarLancamento(Lancamento lancamento) {
 
@@ -40,50 +38,49 @@ public class LancamentoService {
 
 	public Lancamento atualizarLancamento(Long id, Lancamento lancamento) {
 		Lancamento lancamentoSalvo = buscarLancamentoPorId(id);
-
-		if (lancamento.getPessoa().getId()!=null) {
-			Pessoa pessoa = validarPessoa(lancamento.getPessoa());
+		
+		if (lancamento.getPessoa().getId() != null) {
+			Pessoa pessoa = validarPessoa(lancamento.getPessoa().getId());
 			lancamentoSalvo.setPessoa(pessoa);
 		}
-		
-		if(lancamento.getCategoria().getId()!=null) {
-			Categoria categoria = validarCategoria(lancamento.getCategoria());
+
+		if (lancamento.getCategoria().getId() != null) {
+			Categoria categoria = validarCategoria(lancamento.getCategoria().getId());
 			lancamentoSalvo.setCategoria(categoria);
 		}
-		
-		BeanUtils.copyProperties(lancamento, lancamentoSalvo, "id");
 
-		 lancamentoSalvo = lancamentoRepository.save(lancamentoSalvo);
-		 return lancamentoSalvo;
+		BeanUtils.copyProperties(lancamento, lancamentoSalvo, "id", "categoria", "pessoa");
+
+		return lancamentoRepository.save(lancamentoSalvo);
 	}
 
-	private Categoria validarCategoria(Categoria categoria) {
-		
+	private Categoria validarCategoria(Long id) {
+
 		Categoria categoriaSalva = null;
-		
-		if(categoria.getId() !=null) {
-			categoria = categoriaRepository.findOne(categoria.getId());
+
+		if (id != null) {
+			categoriaSalva = categoriaRepository.findOne(id);
 		}
-		
-		if(categoria == null) {
+
+		if (categoriaSalva == null) {
 			throw new EmptyResultDataAccessException(1);
 		}
-		
+
 		return categoriaSalva;
 	}
 
-	private Pessoa validarPessoa(Pessoa pessoaLancamento) {
+	private Pessoa validarPessoa(Long id) {
 
 		Pessoa pessoa = null;
 
-		if (pessoaLancamento.getId() != null) {
-			pessoa = pessoaRepository.findOne(pessoaLancamento.getId());
+		if (id != null) {
+			pessoa = pessoaRepository.findOne(id);
 		}
 
 		if (pessoa == null || pessoa.isInativo()) {
 			throw new PessoaInexistenteOuInativaException();
 		}
-		
+
 		return pessoa;
 	}
 
